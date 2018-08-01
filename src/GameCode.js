@@ -12,7 +12,7 @@ const FRICTION = 1;
 var mouse = {
 	x: 0,
 	y: 0
-}
+};
 
 var player = {
 	x: frame.width / 2,
@@ -25,7 +25,7 @@ var player = {
 		x: 0,
 		y: 0
 	}
-}
+};
 
 function update(){
 	updatePlayerMovement();
