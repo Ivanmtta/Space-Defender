@@ -1,9 +1,9 @@
 var frame = document.getElementById("frame");
 var graphic = frame.getContext("2d");
 
-document.addEventListener("mousemove", mouseMoved);
 document.addEventListener("mousedown", mousePressed);
 document.addEventListener("mouseup", mouseReleased);
+document.addEventListener("mousemove", mouseMoved);
 document.addEventListener("drag", mouseMoved);
 
 const FPS = 60;
@@ -115,10 +115,10 @@ function mouseReleased(){
 	player.thrusting = false;
 }
 
-function mouseMoved(){
+function mouseMoved(event){
 	calculateAngles();
-	mouse.x = event.clientX;
-	mouse.y = event.clientY;
+	mouse.x = event.x;
+	mouse.y = event.y;
 }
 
 setInterval(update, 1000 / FPS);
