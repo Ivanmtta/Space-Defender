@@ -43,17 +43,17 @@ function Player(){
 	}
 
 	this.handleEdges = function(){
-		if(this.x + this.size / 2 < 0){
-			this.x = frame.width + this.size / 2;
+		if(this.x + this.size < 0){
+			this.x = frame.width;
 		}
-		if(this.x - this.size / 2 > frame.width){
-			this.x = 0 - this.size / 2;
+		if(this.x - this.size > frame.width){
+			this.x = 0;
 		}
-		if(this.y + this.size / 2 < 0){
-			this.y = frame.height + this.size / 2;
+		if(this.y + this.size < 0){
+			this.y = frame.height;
 		}
-		if(this.y - this.size / 2 > frame.height){
-			this.y = 0 - this.size / 2;
+		if(this.y - this.size > frame.height){
+			this.y = 0;
 		}
 	}
 }
