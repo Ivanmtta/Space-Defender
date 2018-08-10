@@ -31,7 +31,7 @@ function Player(){
 	this.draw = function(){
 		graphics.save();
 		graphics.translate(this.x - this.size / 2, this.y - this.size / 2);
-		graphics.rotate(this.angle);
+		graphics.rotate(-this.angle);
 		graphics.translate(-this.x - this.size / 2, -this.y - this.size / 2);
 		if(player.thrusting){
 			graphics.drawImage(this.playerThrusting, this.x, this.y, this.size, this.size);
