@@ -1,7 +1,7 @@
 function Player(){
 	this.size = 46;
-	this.x = frame.width / 2 - this.size / 2;
-	this.y = frame.height / 2 - this.size / 2;
+	this.x = frame.width / 2 + this.size / 2;
+	this.y = frame.height / 2 + this.size / 2;
 	this.angle = 0;
 	this.velocity = 10;
 	this.thrusting = false;
@@ -46,7 +46,7 @@ function Player(){
 	this.handleShooting = function(){
 		if(this.shooting){
 			if(this.shootingTics == 5){
-				this.bullets.push(new Bullet(this.x - this.size / 2, this.y - this.size / 2, mouse.x - 1, mouse.y - 1));
+				this.bullets.push(new Bullet(this.x - this.size / 2 - 5, this.y - this.size / 2 - 5, mouse.x, mouse.y));
 				this.shootingTics = 0;
 			}
 			this.shootingTics ++;
