@@ -3,8 +3,9 @@ function Player(){
 	this.x = frame.width / 2 - this.size / 2;
 	this.y = frame.height / 2 - this.size / 2;
 	this.angle = 0;
-	this.velocity = 5;
+	this.velocity = 10;
 	this.thrusting = false;
+	this.shooting = false;
 	this.thrust = {
 		x: 0,
 		y: 0
@@ -13,22 +14,22 @@ function Player(){
 	this.playerNormal.src = "img/player.png";
 	this.playerThrusting = new Image();
 	this.playerThrusting.src = "img/playerThrust.png";
+	this.bullets = [];
+	this.shootingTics = 0;
 
 	this.update = function(){
-		if(this.thrusting){
-			this.thrust.x += this.velocity * Math.cos(this.angle) / FPS;
-			this.thrust.y -= this.velocity * Math.sin(this.angle) / FPS;
-		}
-		else{
-			this.thrust.x -= FRICTION * this.thrust.x / FPS;
-			this.thrust.y -= FRICTION * this.thrust.y / FPS;
-		}
-		this.x += this.thrust.x;
-		this.y += this.thrust.y;
+		this.handlePlayerMovement();
 		this.handleEdges();
+		this.handleShooting();
+		for(var i = 0; i < this.bullets.length; i++){
+			this.bullets[i].update();
+		}
 	}
 
 	this.draw = function(){
+		for(var i = 0; i < this.bullets.length; i++){
+			this.bullets[i].draw();
+		}
 		graphics.save();
 		graphics.translate(this.x - this.size / 2, this.y - this.size / 2);
 		graphics.rotate(-this.angle);
@@ -40,6 +41,33 @@ function Player(){
 			graphics.drawImage(this.playerNormal, this.x, this.y, this.size, this.size);
 		}
 		graphics.restore();
+	}
+
+	this.handleShooting = function(){
+		if(this.shooting){
+			if(this.shootingTics == 5){
+				this.bullets.push(new Bullet(this.x - this.size / 2, this.y - this.size / 2, mouse.x - 1, mouse.y - 1));
+				this.shootingTics = 0;
+			}
+			this.shootingTics ++;
+		}
+	}
+
+	this.handlePlayerMovement = function(){
+		if(this.thrusting){
+			this.thrust.x += this.velocity * Math.cos(this.angle) / FPS;
+			this.thrust.y -= this.velocity * Math.sin(this.angle) / FPS;
+		}
+		else{
+			this.thrust.x -= FRICTION * this.thrust.x / FPS;
+			this.thrust.y -= FRICTION * this.thrust.y / FPS;
+		}
+		this.x += this.thrust.x;
+		this.y += this.thrust.y;
+	}
+
+	this.calculateAngles = function(){
+		this.angle = -Math.atan2(mouse.y - (this.y - this.size / 2), mouse.x - (this.x - this.size / 2));
 	}
 
 	this.handleEdges = function(){
