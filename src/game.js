@@ -12,46 +12,55 @@ window.onload = onCreate;
 const FPS = 60;
 const FRICTION = 1;
 
+var background;
 var player;
 var mouse = {
 	x: 0,
 	y: 0
 };
 
-var backgroundImage = new Image();
-backgroundImage.src = "img/background.png";
+var enemyImage = new Image();
+enemyImage.src = "img/enemy.png";
+var enemy = [];
 
 function onCreate(){
+	background = new Background();
 	player = new Player();
+	enemy.push(new Enemy());
 }
 
 function update(){
+	background.update();
 	player.update();
+	for(var i = 0; i < enemy.length; i++){
+		enemy[i].update();
+	}
 	draw();
 }
 
 function draw(){
 	graphics.clearRect(0, 0, frame.width, frame.height);
-	graphics.drawImage(backgroundImage, 0, 0, frame.width, frame.height);
+	background.draw();
 	player.draw();
-}
-
-function calculateAngles(){
-	player.angle = -Math.atan2(mouse.y - (player.y - player.size / 2), mouse.x - (player.x - player.size / 2));
+	for(var i = 0; i < enemy.length; i++){
+		enemy[i].draw();
+	}
 }
 
 function mousePressed(){
 	player.thrusting = true;
+	player.shooting = true;
 }
 
 function mouseReleased(){
 	player.thrusting = false;
+	player.shooting = false;
 }
 
 function mouseMoved(event){
 	mouse.x = event.x;
 	mouse.y = event.y;
-	calculateAngles();
+	player.calculateAngles();
 }
 
 setInterval(update, 1000 / FPS);
