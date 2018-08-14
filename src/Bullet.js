@@ -6,8 +6,6 @@ function Bullet(initialX, initialY, targetX, targetY){
 	this.velocity = 10;
 	this.xSpeed = Math.cos(this.theta) * this.velocity;
 	this.ySpeed = Math.sin(this.theta) * this.velocity;
-	this.image = new Image();
-	this.image.src = "img/bullet.png";
 
 	this.update = function(){
 		this.x += this.xSpeed;
@@ -15,6 +13,6 @@ function Bullet(initialX, initialY, targetX, targetY){
 	}
 
 	this.draw = function(){
-		graphics.drawImage(this.image, this.x, this.y, this.size, this.size);
+		graphics.drawImage(bulletImage, this.x, this.y, this.size, this.size);
 	}
 }

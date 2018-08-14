@@ -21,6 +21,8 @@ var mouse = {
 
 var enemyImage = new Image();
 enemyImage.src = "img/enemy.png";
+var bulletImage = new Image();
+bulletImage.src = "img/bullet.png";
 var enemy = [];
 
 function onCreate(){
@@ -41,10 +43,10 @@ function update(){
 function draw(){
 	graphics.clearRect(0, 0, frame.width, frame.height);
 	background.draw();
-	player.draw();
 	for(var i = 0; i < enemy.length; i++){
 		enemy[i].draw();
 	}
+	player.draw();
 }
 
 function mousePressed(){
