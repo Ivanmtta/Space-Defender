@@ -1,10 +1,13 @@
 var frame = document.getElementById("frame");
 var graphics = frame.getContext("2d");
 
-document.addEventListener("mousedown", mousePressed);
-document.addEventListener("mouseup", mouseReleased);
-document.addEventListener("mousemove", mouseMoved);
-document.addEventListener("drag", mouseMoved);
+frame.addEventListener("mousedown", mousePressed);
+frame.addEventListener("mouseup", mouseReleased);
+frame.addEventListener("mousemove", mouseMoved);
+frame.addEventListener("drag", mouseMoved);
+frame.addEventListener("touchmove", mouseMoved);
+frame.addEventListener("touchstart", mousePressed);
+frame.addEventListener("touchcancel", mouseReleased);
 graphics.imageSmoothingEnabled = false;
 
 window.onload = onCreate;
@@ -62,7 +65,6 @@ function mouseReleased(){
 function mouseMoved(event){
 	mouse.x = event.x;
 	mouse.y = event.y;
-	player.calculateAngles();
 }
 
 setInterval(update, 1000 / FPS);

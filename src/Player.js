@@ -18,6 +18,7 @@ function Player(){
 	this.shootingTics = 0;
 
 	this.update = function(){
+		this.calculateAngles();
 		this.handlePlayerMovement();
 		this.handleEdges();
 		this.handleShooting();
