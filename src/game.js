@@ -21,6 +21,7 @@ var mouse = {
 	x: 0,
 	y: 0
 };
+var tics = 120;
 
 var enemyImage = new Image();
 enemyImage.src = "img/enemy.png";
@@ -41,11 +42,10 @@ var enemies = [];
 function onCreate(){
 	background = new Background();
 	player = new Player();
-	enemies.push(new Enemy());
-	enemies.push(new Enemy());
 }
 
 function update(){
+	generateEnemies();
 	background.update();
 	player.update();
 	for(var i = 0; i < enemies.length; i++){
@@ -61,6 +61,14 @@ function draw(){
 		enemies[i].draw();
 	}
 	player.draw();
+}
+
+function generateEnemies(){
+	if(tics >= 20 && enemies.length <= 10){
+		enemies.push(new Enemy());
+		tics = 0;
+	}
+	tics ++;
 }
 
 function mousePressed(){

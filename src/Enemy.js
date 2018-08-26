@@ -1,4 +1,4 @@
-function Enemy(x, y){
+function Enemy(){
 	this.size = 46;
 	this.y = Math.floor(Math.random() * frame.height);
 	this.angle = 0;
@@ -9,27 +9,39 @@ function Enemy(x, y){
 	this.damageTic = 0;
 	this.deathTic = 0;
 	this.deathFrame = 0;
-	this.collidingTop = false;
-	this.collidingBot = false;
-	this.collidingLeft = false;
-	this.collidingRight = false;
 	this.takingDamage = false;
 	this.canDamage = true;
 	this.death = false;
+	this.up = false;
+	this.down = false;
+	this.left = false;
+	this.right = false;
 
 	this.update = function(){
 		this.checkDeath();
 		if(!this.death){
 			this.checkBulletCollision();
+			this.getDirection();
 			this.checkCollisions();
 			if(this.takingDamage){
 				this.checkDamage();
 			}
-			this.angle = -Math.atan2((player.y - player.size / 2) - (this.y - this.size / 2), (player.x - player.size / 2) - (this.x - this.size / 2));
+			this.angle = -Math.atan2((player.y - player.size / 2) - (this.y - this.size / 2), 
+				(player.x - player.size / 2) - (this.x - this.size / 2));
 			this.xSpeed = this.velocity * Math.cos(this.angle);
 			this.ySpeed = this.velocity * -Math.sin(this.angle);
-			this.x += this.xSpeed;
-			this.y += this.ySpeed;
+			if(this.up){
+				this.y += this.ySpeed;
+			}
+			if(this.down){
+				this.y += this.ySpeed;
+			}
+			if(this.left){
+				this.x += this.xSpeed;
+			}
+			if(this.right){
+				this.x += this.xSpeed;
+			}
 		}
 	}
 
@@ -53,10 +65,29 @@ function Enemy(x, y){
 	this.generateX = function(){
 		var randNum = Math.floor(Math.random() * 2);
 		if(randNum == 0){
-			return - (this.size * 2);
+			return -(this.size * 2);
 		}
 		else{
 			return frame.width + (this.size * 2);
+		}
+	}
+
+	this.getDirection = function(){
+		if(this.xSpeed < 0){
+			this.right = true;
+			this.left = false;
+		}
+		else{
+			this.left = true;
+			this.right = false;
+		}
+		if(this.ySpeed < 0){
+			this.down = true;
+			this.up = false;
+		}
+		else{
+			this.up = true;
+			this.down = false;
 		}
 	}
 
@@ -87,12 +118,19 @@ function Enemy(x, y){
 	}
 
 	this.checkCollisions = function(){
-		this.collidingTop = false;
-		this.collidingBot = false;
-		this.collidingLeft = false;
-		this.collidingRight = false;
 		for(var i = 0; i < enemies.length; i++){
-
+			if(this.contains(enemies[i].getTopLeft()) || this.contains(enemies[i].getTopRight())){
+				this.up = false;
+			}
+			if(this.contains(enemies[i].getBotLeft()) || this.contains(enemies[i].getBotRight())){
+				this.down = false;
+			}
+			if(this.contains(enemies[i].getLeftTop()) || this.contains(enemies[i].getLeftBot())){
+				this.left = false;
+			}
+			if(this.contains(enemies[i].getRightTop()) || this.contains(enemies[i].getRightBot())){
+				this.right = false;
+			}
 		}
 	}
 
@@ -108,6 +146,75 @@ function Enemy(x, y){
 			this.deathTic ++;
 			this.death = true;
 		}
+	}
+
+	this.contains = function(point){
+		return this.x <= point.x && point.x <= this.x + this.size &&
+			this.y <= point.y && point.y <= this.y + this.size;
+	}
+
+	this.getTopLeft = function(){
+		var point2D = {
+			x: this.x,
+			y: this.y - this.velocity
+		};
+		return point2D;
+	}
+
+	this.getTopRight = function(){
+		var point2D = {
+			x: this.x + this.size,
+			y: this.y - this.velocity
+		};
+		return point2D;
+	}
+
+	this.getBotLeft = function(){
+		var point2D = {
+			x: this.x,
+			y: this.y + this.size + this.velocity
+		};
+		return point2D;
+	}
+
+	this.getBotRight = function(){
+		var point2D = {
+			x: this.x + this.size,
+			y: this.y + this.size + this.velocity
+		};
+		return point2D;
+	}
+
+	this.getLeftTop = function(){
+		var point2D = {
+			x: this.x - this.velocity,
+			y: this.y
+		};
+		return point2D;
+	}
+
+	this.getLeftBot = function(){
+		var point2D = {
+			x: this.x - this.velocity,
+			y: this.y + this.size
+		};
+		return point2D;
+	}
+
+	this.getRightTop = function(){
+		var point2D = {
+			x: this.x + this.size + this.velocity,
+			y: this.y
+		};
+		return point2D;
+	}
+
+	this.getRightBot = function(){
+		var point2D = {
+			x: this.x + this.size + this.velocity,
+			y: this.y + this.size
+		};
+		return point2D;
 	}
 
 	this.x = this.generateX();
