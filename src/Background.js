@@ -16,13 +16,13 @@ function Background(){
 
 	this.startBack1 = {
 		x: 0,
-		velocity: 1,
+		velocity: 1.5,
 		image: new Image()
 	}
 
 	this.startBack2 = {
 		x: frame.width,
-		velocity: 1,
+		velocity: 1.5,
 		image: new Image()
 	}
 
