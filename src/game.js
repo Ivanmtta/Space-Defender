@@ -5,7 +5,7 @@ frame.addEventListener("mousedown", mousePressed);
 frame.addEventListener("mouseup", mouseReleased);
 frame.addEventListener("mousemove", mouseMoved);
 frame.addEventListener("drag", mouseMoved);
-frame.addEventListener("touchmove", mouseMoved);
+frame.addEventListener("touchmove", touchMove);
 frame.addEventListener("touchstart", mousePressed);
 frame.addEventListener("touchcancel", mouseReleased);
 graphics.imageSmoothingEnabled = false;
@@ -24,21 +24,32 @@ var mouse = {
 
 var enemyImage = new Image();
 enemyImage.src = "img/enemy.png";
+var enemyDamageImage = new Image();
+enemyDamageImage.src = "img/enemyDamage.png";
 var bulletImage = new Image();
 bulletImage.src = "img/bullet.png";
-var enemy = [];
+var enemyDeath = [];
+for(var i = 0; i < 4; i++){
+	enemyDeath[i] = new Image();
+}
+enemyDeath[0].src = "img/enemyDeath1.png";
+enemyDeath[1].src = "img/enemyDeath2.png";
+enemyDeath[2].src = "img/enemyDeath3.png";
+enemyDeath[3].src = "img/enemyDeath4.png";
+var enemies = [];
 
 function onCreate(){
 	background = new Background();
 	player = new Player();
-	enemy.push(new Enemy());
+	enemies.push(new Enemy());
+	enemies.push(new Enemy());
 }
 
 function update(){
 	background.update();
 	player.update();
-	for(var i = 0; i < enemy.length; i++){
-		enemy[i].update();
+	for(var i = 0; i < enemies.length; i++){
+		enemies[i].update();
 	}
 	draw();
 }
@@ -46,8 +57,8 @@ function update(){
 function draw(){
 	graphics.clearRect(0, 0, frame.width, frame.height);
 	background.draw();
-	for(var i = 0; i < enemy.length; i++){
-		enemy[i].draw();
+	for(var i = 0; i < enemies.length; i++){
+		enemies[i].draw();
 	}
 	player.draw();
 }
@@ -60,6 +71,11 @@ function mousePressed(){
 function mouseReleased(){
 	player.thrusting = false;
 	player.shooting = false;
+}
+
+function touchMove(event){
+	mouse.x = event.touches[0].clientX;
+	mouse.y = event.touches[0].clientY;
 }
 
 function mouseMoved(event){
