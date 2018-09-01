@@ -10,9 +10,17 @@ function Bullet(initialX, initialY, targetX, targetY){
 	this.update = function(){
 		this.x += this.xSpeed;
 		this.y += this.ySpeed;
+		this.checkBorders();
 	}
 
 	this.draw = function(){
 		graphics.drawImage(bulletImage, this.x, this.y, this.size, this.size);
+	}
+
+	this.checkBorders = function(){
+		if(this.x < -this.size || this.x > frame.width + this.size ||
+			this.y < - this.size || this.y > frame.height + this.size){
+			player.bullets.splice(player.bullets.indexOf(this), 1);
+		}
 	}
 }

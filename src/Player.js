@@ -16,8 +16,10 @@ function Player(){
 	this.playerThrusting.src = "img/playerThrust.png";
 	this.bullets = [];
 	this.shootingTics = 0;
+	this.hitPoints = 3;
 
 	this.update = function(){
+		this.checkCollisions();
 		this.calculateAngles();
 		this.handlePlayerMovement();
 		this.handleEdges();
@@ -84,5 +86,20 @@ function Player(){
 		if(this.y - this.size > frame.height){
 			this.y = 0;
 		}
+	}
+
+	this.checkCollisions = function(){
+		for(var i = 0; i < enemies.length; i++){
+			if(this.contains(enemies[i].getTopLeft()) || this.contains(enemies[i].getTopRight()) ||
+				this.contains(enemies[i].getBotLeft()) || this.contains(enemies[i].getBotRight()) ||
+				this.contains(enemies[i].getLeftTop()) || this.contains(enemies[i].getLeftBot()) ||
+				this.contains(enemies[i].getRightTop()) || this.contains(enemies[i].getRightBot())){
+			}
+		}
+	}
+
+	this.contains = function(point){
+		return this.x - this.size + 10 <= point.x && point.x <= this.x - this.size + 10 + this.size &&
+			this.y - this.size + 10 <= point.y && point.y <= this.y - this.size + 10 + this.size;
 	}
 }

@@ -5,7 +5,7 @@ function Enemy(){
 	this.velocity = Math.floor(Math.random() * 2) + 2;
 	this.xSpeed = 0;
 	this.ySpeed = 0;
-	this.hitPoints = 10;
+	this.hitPoints = 1;
 	this.damageTic = 0;
 	this.deathTic = 0;
 	this.deathFrame = 0;

@@ -64,7 +64,7 @@ function draw(){
 }
 
 function generateEnemies(){
-	if(tics >= 20 && enemies.length <= 10){
+	if(tics >= 200 && enemies.length <= 50){
 		enemies.push(new Enemy());
 		tics = 0;
 	}
