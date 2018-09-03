@@ -24,6 +24,7 @@ function Player(){
 		this.handlePlayerMovement();
 		this.handleEdges();
 		this.handleShooting();
+		this.checkDeath();
 		for(var i = 0; i < this.bullets.length; i++){
 			this.bullets[i].update();
 		}
@@ -90,16 +91,28 @@ function Player(){
 
 	this.checkCollisions = function(){
 		for(var i = 0; i < enemies.length; i++){
-			if(this.contains(enemies[i].getTopLeft()) || this.contains(enemies[i].getTopRight()) ||
-				this.contains(enemies[i].getBotLeft()) || this.contains(enemies[i].getBotRight()) ||
-				this.contains(enemies[i].getLeftTop()) || this.contains(enemies[i].getLeftBot()) ||
-				this.contains(enemies[i].getRightTop()) || this.contains(enemies[i].getRightBot())){
+			if(this.x < enemies[i].x + enemies[i].size &&
+				this.x + this.size > enemies[i].x &&
+				this.y < enemies[i].y + enemies[i].size &&
+				this.y + this.size > enemies[i].y && enemies[i].hitPoints > 0){
+				enemies[i].hitPoints = 0;
+				this.hitPoints --;
+			}
+		}
+		for(var i = 0; i < enemyBullets.length; i++){
+			if(this.x - this.size < enemyBullets[i].x + enemyBullets[i].size &&
+				this.x - this.size + this.size > enemyBullets[i].x &&
+				this.y - this.size < enemyBullets[i].y + enemyBullets[i].size &&
+				this.y - this.size + this.size > enemyBullets[i].y){
+				enemyBullets.splice(i, 1);
+				this.hitPoints --;
 			}
 		}
 	}
 
-	this.contains = function(point){
-		return this.x - this.size + 10 <= point.x && point.x <= this.x - this.size + 10 + this.size &&
-			this.y - this.size + 10 <= point.y && point.y <= this.y - this.size + 10 + this.size;
+	this.checkDeath = function(){
+		if(this.hitPoints <= 0){
+			gameOver = true;
+		}
 	}
 }
