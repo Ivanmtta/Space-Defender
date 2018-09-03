@@ -117,8 +117,9 @@ function mouseReleased(){
 }
 
 function mouseMoved(event){
-	mouse.x = event.x;
-	mouse.y = event.y;
+	var rect = frame.getBoundingClientRect();
+	mouse.x = event.clientX - rect.left;
+	mouse.y = event.clientY - rect.top;
 }
 
 setInterval(update, 1000 / FPS);
