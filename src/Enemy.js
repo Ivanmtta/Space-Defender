@@ -5,13 +5,14 @@ function Enemy(){
 	this.velocity = Math.floor(Math.random() * 2) + 2;
 	this.xSpeed = 0;
 	this.ySpeed = 0;
-	this.hitPoints = 1;
+	this.hitPoints = 3;
 	this.damageTic = 0;
 	this.deathTic = 0;
 	this.deathFrame = 0;
 	this.takingDamage = false;
 	this.canDamage = true;
 	this.death = false;
+	this.shotTics = 0;
 	this.up = false;
 	this.down = false;
 	this.left = false;
@@ -23,6 +24,7 @@ function Enemy(){
 			this.checkBulletCollision();
 			this.getDirection();
 			this.checkCollisions();
+			// this.shotBullets();
 			if(this.takingDamage){
 				this.checkDamage();
 			}
@@ -60,6 +62,14 @@ function Enemy(){
 			graphics.drawImage(enemyImage, this.x, this.y, this.size, this.size);
 		}
 		graphics.restore();
+	}
+
+	this.shotBullets = function(){
+		if(this.shotTics == 60){
+			enemyBullets.push(new EnemyBullet(this.x - 23, this.y - 23, player.x - 23, player.y - 23));
+			this.shotTics = 0;
+		}
+		this.shotTics ++;
 	}
 
 	this.generateX = function(){
