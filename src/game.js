@@ -7,13 +7,11 @@ frame.addEventListener("mousemove", mouseMoved);
 frame.addEventListener("drag", mouseMoved);
 graphics.imageSmoothingEnabled = false;
 
-window.onload = onCreate;
-
 const FPS = 60;
 const FRICTION = 1;
 
-var background;
-var player;
+var background = new Background();
+var player = new Player();
 var mouse = {
 	x: 0,
 	y: 0
@@ -42,11 +40,6 @@ enemyDeath[2].src = "img/enemyDeath3.png";
 enemyDeath[3].src = "img/enemyDeath4.png";
 var enemies = [];
 var enemyBullets = [];
-
-function onCreate(){
-	background = new Background();
-	player = new Player();
-}
 
 function update(){
 	if(!gameOver){
