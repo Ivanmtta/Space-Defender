@@ -20,6 +20,7 @@ var mouse = {
 };
 var tics = 120;
 var gameOver = false;
+var score = 0;
 
 var gameOverImage = new Image();
 gameOverImage.src = "img/gameOver.png";
@@ -65,6 +66,7 @@ function update(){
 function draw(){
 	graphics.clearRect(0, 0, frame.width, frame.height);
 	background.draw();
+	drawScore();
 	for(var i = 0; i < enemyBullets.length; i++){
 		enemyBullets[i].draw();
 	}
@@ -77,6 +79,13 @@ function draw(){
 	}
 }
 
+function drawScore(){
+	graphics.font = "bold 30px Helvetica";
+	graphics.fillStyle = "white";
+	graphics.textAlign = "center";
+	graphics.fillText(score, frame.width / 2 - 80, 46);
+}
+
 function restardGame(){
 	player.x = frame.width / 2 + player.size / 2;
 	player.y = frame.height / 2 + player.size / 2;
@@ -85,6 +94,7 @@ function restardGame(){
 	player.bullets = [];
 	enemies = [];
 	enemyBullets = [];
+	score = 0;
 }
 
 function generateEnemies(){

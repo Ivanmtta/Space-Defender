@@ -14,9 +14,14 @@ function Player(){
 	this.playerNormal.src = "img/player.png";
 	this.playerThrusting = new Image();
 	this.playerThrusting.src = "img/playerThrust.png";
+	this.playerDamage = new Image();
+	this.playerDamage.src = "img/playerDamage.png";
 	this.bullets = [];
 	this.shootingTics = 0;
 	this.hitPoints = 3;
+	this.damage = false;
+	this.damageTic = 0;
+	this.canTakeDamage = true;
 
 	this.update = function(){
 		this.checkCollisions();
@@ -25,6 +30,7 @@ function Player(){
 		this.handleEdges();
 		this.handleShooting();
 		this.checkDeath();
+		this.handleDamage();
 		for(var i = 0; i < this.bullets.length; i++){
 			this.bullets[i].update();
 		}
@@ -38,7 +44,10 @@ function Player(){
 		graphics.translate(this.x - this.size / 2, this.y - this.size / 2);
 		graphics.rotate(-this.angle);
 		graphics.translate(-this.x - this.size / 2, -this.y - this.size / 2);
-		if(player.thrusting){
+		if(this.damage){
+			graphics.drawImage(this.playerDamage, this.x, this.y, this.size, this.size);
+		}
+		else if(this.thrusting){
 			graphics.drawImage(this.playerThrusting, this.x, this.y, this.size, this.size);
 		}
 		else{
@@ -89,13 +98,24 @@ function Player(){
 		}
 	}
 
+	this.handleDamage = function(){
+		if(this.damageTic == 5){
+			this.damageTic = 0;
+			this.canTakeDamage = true;
+			this.damage = false;
+		}
+		this.damageTic ++;
+	}
+
 	this.checkCollisions = function(){
 		for(var i = 0; i < enemies.length; i++){
 			if(this.x < enemies[i].x + enemies[i].size &&
 				this.x + this.size > enemies[i].x &&
 				this.y < enemies[i].y + enemies[i].size &&
-				this.y + this.size > enemies[i].y && enemies[i].hitPoints > 0){
+				this.y + this.size > enemies[i].y && enemies[i].hitPoints > 0 && this.canTakeDamage){
 				enemies[i].hitPoints = 0;
+				this.canTakeDamage = false;
+				this.damage = true;
 				this.hitPoints --;
 			}
 		}
@@ -103,8 +123,10 @@ function Player(){
 			if(this.x - this.size < enemyBullets[i].x + enemyBullets[i].size &&
 				this.x - this.size + this.size > enemyBullets[i].x &&
 				this.y - this.size < enemyBullets[i].y + enemyBullets[i].size &&
-				this.y - this.size + this.size > enemyBullets[i].y){
+				this.y - this.size + this.size > enemyBullets[i].y && this.canTakeDamage){
 				enemyBullets.splice(i, 1);
+				this.canTakeDamage = false;
+				this.damage = true;
 				this.hitPoints --;
 			}
 		}

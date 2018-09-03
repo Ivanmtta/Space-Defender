@@ -24,7 +24,7 @@ function Enemy(){
 			this.checkBulletCollision();
 			this.getDirection();
 			this.checkCollisions();
-			// this.shotBullets();
+			this.shotBullets();
 			if(this.takingDamage){
 				this.checkDamage();
 			}
@@ -147,6 +147,9 @@ function Enemy(){
 	this.checkDeath = function(){
 		if(this.hitPoints == 0){
 			if(this.deathTic == 10){
+				if(this.deathFrame == 0){					
+					score ++;
+				}
 				this.deathFrame ++;
 				if(this.deathFrame == 4){		
 					enemies.splice(enemies.indexOf(this), 1);
