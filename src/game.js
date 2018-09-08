@@ -19,6 +19,8 @@ var mouse = {
 var tics = 120;
 var gameOver = false;
 var score = 0;
+var musicPlaying = false;
+var backgroundMusic = document.getElementById("backMusic");
 
 var gameOverImage = new Image();
 gameOverImage.src = "img/gameOver.png";
@@ -99,6 +101,10 @@ function generateEnemies(){
 }
 
 function mousePressed(){
+	if(!musicPlaying){
+		backgroundMusic.play();
+		musicPlaying = true;
+	}
 	if(!gameOver){
 		player.thrusting = true;
 		player.shooting = true;
